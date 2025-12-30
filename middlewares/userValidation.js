@@ -22,18 +22,12 @@ exports.registerValidation = [
     .isLength({ min: 6 })
     .withMessage("Password must be at least 6 characters"),
   body("phone")
-    .optional({ checkFalsy: true })
-    .isNumeric()
-    .withMessage("Phone must contain only numbers")
-    .isLength({ min: 8 })
-    .withMessage("Phone must be at least 8 digits")
-    .custom(async (phone) => {
-      const user = await User.findOne({ phone });
-      if (user) {
-        throw new Error("Phone number already exists");
-      }
-      return true;
-    }),
+    .notEmpty()
+    .withMessage("Phone is required")
+    .matches(/^\+?[0-9]{8,15}$/)
+    .withMessage(
+      "Phone must be a valid number, with optional + and country code"
+    ),
 
   (req, res, next) => {
     const errors = validationResult(req);

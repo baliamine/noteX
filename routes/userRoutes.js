@@ -11,4 +11,6 @@ router.post("/register", registerValidation, Register);
 router.post("/login", loginValidation, Login);
 router.post("/forgot-password", forgotPassword);
 router.post("/reset-password", resetPassword);
+
+
 module.exports = router;

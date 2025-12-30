@@ -6,6 +6,10 @@ const comparePassword = require("../utils/comparePassword");
 const Register = async (req, res) => {
   try {
     const { username, email, password, phone } = req.body;
+    const existingPhoene = await User.findOne({ phone });
+    if (existingPhoene) {
+      return res.status(400).json({ message: "Phone number already in use" });
+    }
 
     const existingUser = await User.findOne({ email });
     if (existingUser) {
