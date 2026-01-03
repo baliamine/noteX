@@ -4,8 +4,8 @@ const morgan = require("morgan");
 const cookieParser = require("cookie-parser"); 
 require("dotenv").config();
 const connectToDb = require("./Config/ConnectToDb");
-const userRoutes = require("./routes/userRoutes");
-const noteRoutes = require("./routes/noteRoutes");
+const authRoutes = require("./routes/auth.routes");
+const noteRoutes = require("./routes/note.routes");
 
 const app = express();
 
@@ -15,7 +15,7 @@ app.use(cookieParser());
 app.use(morgan("dev"));
 
 app.use("/api/note", noteRoutes);
-app.use("/api/user", userRoutes);
+app.use("/api/user", authRoutes);
 
 const PORT = process.env.PORT || 5000;
 connectToDb();
