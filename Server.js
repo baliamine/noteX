@@ -17,6 +17,8 @@ app.use(morgan("dev"));
 app.use("/api/note", noteRoutes);
 app.use("/api/user", authRoutes);
 
+
+
 const PORT = process.env.PORT || 5000;
 connectToDb();
 app.listen(PORT, () => {

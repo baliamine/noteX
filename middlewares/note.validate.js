@@ -12,25 +12,21 @@ exports.createNoteValidator = [
     .optional()
     .isArray()
     .withMessage("Tags must be an array of strings"),
-
-  body("tags.*").optional().isString().withMessage("Each tag must be a string"),
-
+    
   body("password")
     .optional()
     .isLength({ min: 6 })
-    .withMessage("Password must be at least 6 characters if note is locked"),
+    .withMessage("Password must be at least 6 characters"),
 
   body("isLocked")
     .optional()
     .isBoolean()
     .withMessage("isLocked must be a boolean"),
 
-  (req, res, next) => {
+  (req, _res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).json({
-        errors: errors.array(),
-      });
+      req.validationErrors = errors.array();
     }
     next();
   },
