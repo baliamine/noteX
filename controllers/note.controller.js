@@ -1,6 +1,6 @@
 const Note = require("../models/note");
 const { getFileUrl, deleteFile } = require("../middlewares/upload.file");
-const ApiFeatures = require("../utils/api.features");
+const ApiFeatures = require("../config/api.features");
 
 const createNewNote = async (req, res) => {
   try {

@@ -3,7 +3,7 @@ const cors = require("cors");
 const morgan = require("morgan");
 const cookieParser = require("cookie-parser"); 
 require("dotenv").config();
-const connectToDb = require("./Config/ConnectToDb");
+const connectToDb = require("./config/ConnectToDb");
 const authRoutes = require("./routes/auth.routes");
 const noteRoutes = require("./routes/note.routes");
 

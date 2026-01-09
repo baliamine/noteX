@@ -5,7 +5,7 @@ const {
 } = require("../utils/generate.token");
 const hashPassword = require("../utils/hash.password");
 const comparePassword = require("../utils/compare.password");
-const sendEmail = require("../utils/send.email");
+const sendEmail = require("../helpers/send.email");
 const jwt = require("jsonwebtoken");
 const { contextsKey } = require("express-validator/lib/base");
 
