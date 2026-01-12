@@ -5,6 +5,8 @@ const router = express.Router();
 const {
   getProfile,
   updateProfile,
+  updateEmail,
+  updatePassword,
 } = require("../controllers/profile.controller");
 const verifyToken = require("../middlewares/verify.token");
 const { updateProfileValidation } = require("../validators/profile.validate");
@@ -18,5 +20,8 @@ router.put(
   validate,
   updateProfile
 );
+router.put("/update-email", verifyToken, updateEmail);
+router.put("/update-password", verifyToken, updatePassword);
+
 
 module.exports = router;
