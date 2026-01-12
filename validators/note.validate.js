@@ -1,4 +1,4 @@
-const { body, validationResult } = require("express-validator");
+const { body } = require("express-validator");
 
 exports.createNoteValidator = [
   body("title")
@@ -12,7 +12,7 @@ exports.createNoteValidator = [
     .optional()
     .isArray()
     .withMessage("Tags must be an array of strings"),
-    
+
   body("password")
     .optional()
     .isLength({ min: 6 })
@@ -22,12 +22,4 @@ exports.createNoteValidator = [
     .optional()
     .isBoolean()
     .withMessage("isLocked must be a boolean"),
-
-  (req, _res, next) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      req.validationErrors = errors.array();
-    }
-    next();
-  },
 ];

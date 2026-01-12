@@ -6,8 +6,6 @@ const {
 const hashPassword = require("../utils/hash.password");
 const comparePassword = require("../utils/compare.password");
 const sendEmail = require("../helpers/send.email");
-const jwt = require("jsonwebtoken");
-const { contextsKey } = require("express-validator/lib/base");
 
 const generateOTP = () => Math.floor(100000 + Math.random() * 900000);
 
@@ -119,18 +117,18 @@ const forgotPassword = async (req, res) => {
 
     await sendEmail(
       user.email,
-      "Password Reset OTP - NoteX",
+      "Password Reset OTP - MindBook",
       `
 Bonjour ${user.username || ""},
 
-Votre code OTP (One-Time Password) pour réinitialiser votre mot de passe est : **${otp}**
+Votre code de réinitialisation F : **${otp}**
 
 ⚠️ Ce code est valide uniquement pendant 10 minutes. Ne partagez jamais ce code.
 
 Si vous n’avez pas demandé cette réinitialisation, ignorez cet email.
 
 Merci,
-L’équipe NoteX
+L’équipe MindBook
 `
     );
 
