@@ -1,9 +1,10 @@
 const jwt = require("jsonwebtoken");
-const User = require("../models/User");
+const User = require("../models/user");
 
 const verifyToken = async (req, res, next) => {
   try {
     const refreshToken = req.cookies.refreshToken;
+
     if (!refreshToken) {
       return res.status(401).json({ message: "Access Denied" });
     }
@@ -20,7 +21,6 @@ const verifyToken = async (req, res, next) => {
 
     // Attach user to request
     req.user = user;
-
 
     next();
   } catch (err) {
