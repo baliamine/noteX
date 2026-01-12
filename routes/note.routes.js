@@ -9,7 +9,7 @@ const {
 } = require("../controllers/note.controller");
 const verifyToken = require("../middlewares/verify.token");
 const { createNoteValidator } = require("../validators/note.validate");
-const validate  = require("../validators/validate");
+const validate  = require("../middlewares/validate");
 const { uploadSingle } = require("../middlewares/upload.file");
 
 router.post(

@@ -13,7 +13,7 @@ const {
   registerValidation,
   loginValidation,
 } = require("../validators/auth.validate");
-const validate = require("../validators/validate");
+const validate = require("../middlewares/validate");
 
 const verifyToken = require("../middlewares/verify.token");
 router.post("/register", registerValidation, validate, Register);
