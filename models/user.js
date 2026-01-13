@@ -8,6 +8,11 @@ const userSchema = new Schema(
     phone: { type: String },
     resetOTP: Number,
     otpExpiry: Date,
+     role: {
+      type: String,
+      enum: ["visitor", "user", "admin"],
+      required: true, 
+    },
   },
   { timestamps: true }
 );

@@ -29,6 +29,7 @@ const Register = async (req, res) => {
       email,
       password: hashedPassword,
       phone,
+      role: "user",
     });
 
     const accessToken = generateAccessToken(newUser);
