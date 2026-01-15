@@ -9,12 +9,14 @@ const {
 } = require("../controllers/note.controller");
 const verifyToken = require("../middlewares/verify.token");
 const { createNoteValidator } = require("../validators/note.validate");
-const validate  = require("../middlewares/validate");
+const validate = require("../middlewares/validate");
 const { uploadSingle } = require("../middlewares/upload.file");
+const authorize = require("../middlewares/authorize.role");
 
 router.post(
   "/new-note",
   verifyToken,
+  authorize("user"),
   uploadSingle("file"),
   createNoteValidator,
   validate,
@@ -24,13 +26,19 @@ router.post(
 router.put(
   "/edit-note/:noteId",
   verifyToken,
+  authorize("user"),
   uploadSingle("file"),
   createNoteValidator,
   validate,
   EditNote
 );
-router.delete("/delete-note/:noteId", verifyToken, deleteNote);
+router.delete(
+  "/delete-note/:noteId",
+  verifyToken,
+  authorize("user"),
+  deleteNote
+);
 
-router.get("/all-notes", verifyToken, getAllNotes);
-router.get("/note-byId/:noteId", verifyToken, getNoteById);
+router.get("/all-notes", verifyToken, authorize("user"), getAllNotes);
+router.get("/note-byId/:noteId", verifyToken, authorize("user"), getNoteById);
 module.exports = router;

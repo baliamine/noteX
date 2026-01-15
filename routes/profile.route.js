@@ -19,7 +19,7 @@ const {
 } = require("../validators/profile.validate");
 const validate = require("../middlewares/validate");
 
-router.get("/get-profile", verifyToken, getProfile);
+router.get("/get-profile", verifyToken, authorize("user"), getProfile);
 router.put(
   "/update-profile",
   verifyToken,
