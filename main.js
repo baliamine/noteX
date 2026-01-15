@@ -7,6 +7,7 @@ const cookieParser = require("cookie-parser");
 const authRoutes = require("./routes/auth.routes");
 const noteRoutes = require("./routes/note.routes");
 const profileRoutes = require("./routes/profile.route");
+const adminRoutes = require("./routes/admin.routes");
 
 const app = express();
 
@@ -20,5 +21,6 @@ app.use(morgan("dev"));
 app.use("/api/note", noteRoutes);
 app.use("/api/user", authRoutes);
 app.use("/api/profile", profileRoutes);
+app.use("/api/admin", adminRoutes);
 
 module.exports = app; 

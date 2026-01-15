@@ -16,12 +16,13 @@ const {
 const validate = require("../middlewares/validate");
 
 const verifyToken = require("../middlewares/verify.token");
+const authorize = require("../middlewares/authorize.role");
 router.post("/register", registerValidation, validate, Register);
 
 router.post("/login", loginValidation, validate, Login);
-router.post("/refresh-token", verifyToken, RefreshToken);
+router.post("/refresh-token", verifyToken, authorize("user"), RefreshToken);
 router.post("/forgot-password", forgotPassword);
 router.post("/reset-password", resetPassword);
-router.post("/logout", verifyToken, Logout);
+router.post("/logout", verifyToken, authorize("user"), Logout);
 
 module.exports = router;

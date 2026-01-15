@@ -1,6 +1,7 @@
 const User = require("../models/user");
 const comparePassword = require("../utils/compare.password");
 const hashPassword = require("../utils/hash.password");
+const ApiFeatures = require("../config/api.features");
 
 const getProfile = async (req, res) => {
   try {
@@ -20,6 +21,35 @@ const getProfile = async (req, res) => {
     return res.status(401).json({
       message: "Invalid or expired token",
     });
+  }
+};
+
+const getAllProfiles = async (req, res) => {
+  try {
+    const baseQuery = User.find({}, "-password -__v");
+
+    const features = new ApiFeatures(baseQuery, req.query)
+      .search(["name", "email", "role"])
+      .sort()
+      .paginate();
+
+    // Execute the query
+    const users = await features.query;
+
+    const total = await User.countDocuments();
+
+    res.status(200).json({
+      message: "Users retrieved successfully",
+      meta: {
+        total,
+        page: features.pagination.page,
+        limit: features.pagination.limit,
+      },
+      users,
+    });
+  } catch (error) {
+    console.error("Get all profiles error:", error.message);
+    res.status(500).json({ message: "Server error" });
   }
 };
 
@@ -147,4 +177,5 @@ module.exports = {
   updateEmail,
   updatePassword,
   deleteAccount,
+  getAllProfiles,
 };
