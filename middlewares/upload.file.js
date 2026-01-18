@@ -14,7 +14,7 @@ const storage = multer.diskStorage({
   },
   filename: (_req, file, cb) => {
     const uniqueName = `${Date.now()}-${Math.round(
-      Math.random() * 1e9
+      Math.random() * 1e9,
     )}${path.extname(file.originalname)}`;
 
     cb(null, uniqueName);
@@ -35,16 +35,7 @@ const getFileUrl = (req, filename) => {
   return `${req.protocol}://${req.get("host")}/uploads/${filename}`;
 };
 
-const deleteFile = (filePath) => {
-  if (!filePath) return;
-
-  fs.unlink(filePath, (err) => {
-    if (err) console.error("File deletion error:", err.message);
-  });
-};
-
 module.exports = {
   uploadSingle,
   getFileUrl,
-  deleteFile,
 };

@@ -26,17 +26,17 @@ const getProfile = async (req, res) => {
 
 const getAllProfiles = async (req, res) => {
   try {
-    const baseQuery = User.find({}, "-password -__v");
+    const baseQuery = User.find({ role: { $ne: "admin" } }, "-password -__v");
 
     const features = new ApiFeatures(baseQuery, req.query)
       .search(["name", "email", "role"])
       .sort()
       .paginate();
 
-    // Execute the query
     const users = await features.query;
 
-    const total = await User.countDocuments();
+    const total = await User.countDocuments({ role: { $ne: "admin" } });
+
 
     res.status(200).json({
       message: "Users retrieved successfully",

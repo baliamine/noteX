@@ -8,7 +8,7 @@ const {
   getNoteById,
 } = require("../controllers/note.controller");
 const verifyToken = require("../middlewares/verify.token");
-const { createNoteValidator } = require("../validators/note.validate");
+const { NoteValidator } = require("../validators/note.validate");
 const validate = require("../middlewares/validate");
 const { uploadSingle } = require("../middlewares/upload.file");
 const authorize = require("../middlewares/authorize.role");
@@ -18,9 +18,9 @@ router.post(
   verifyToken,
   authorize("user"),
   uploadSingle("file"),
-  createNoteValidator,
+  NoteValidator,
   validate,
-  createNewNote
+  createNewNote,
 );
 
 router.put(
@@ -28,15 +28,15 @@ router.put(
   verifyToken,
   authorize("user"),
   uploadSingle("file"),
-  createNoteValidator,
+  NoteValidator,
   validate,
-  EditNote
+  EditNote,
 );
 router.delete(
   "/delete-note/:noteId",
   verifyToken,
   authorize("user"),
-  deleteNote
+  deleteNote,
 );
 
 router.get("/all-notes", verifyToken, authorize("user"), getAllNotes);

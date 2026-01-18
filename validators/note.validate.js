@@ -1,6 +1,6 @@
 const { body } = require("express-validator");
 
-exports.createNoteValidator = [
+exports.NoteValidator = [
   body("title")
     .trim()
     .isLength({ max: 100 })
