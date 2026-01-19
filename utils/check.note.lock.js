@@ -16,10 +16,7 @@ const checkNoteLock = async (note, notePassword) => {
     };
   }
 
-  const isMatch = await compareNotePassword(
-    notePassword,
-    note.password
-  );
+  const isMatch = await compareNotePassword(notePassword, note.password);
 
   if (!isMatch) {
     throw {

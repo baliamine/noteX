@@ -5,6 +5,7 @@ const { deleteFile } = require("../utils/delete.file");
 const ApiFeatures = require("../config/api.features");
 const hashPassword = require("../utils/hash.password");
 const checkNoteLock = require("../utils/check.note.lock");
+const note = require("../models/note");
 
 const EditNote = async (req, res) => {
   try {
@@ -177,6 +178,39 @@ const getAllNotes = async (req, res) => {
   }
 };
 
+const noteLock = async (req, res) => {
+  try {
+    const { noteId } = req.params;
+    const { newPassword } = req.body || {};
+    if (!mongoose.Types.ObjectId.isValid(noteId)) {
+      return res.status(400).json({ message: "Invalid note ID" });
+    }
+    if (!newPassword || newPassword.length < 6) {
+      return res
+        .status(400)
+        .json({ message: "New password must be at least 6 characters" });
+    }
+    const note = await Note.findOne({
+      _id: noteId,
+      user: req.user._id,
+      password: { $exists: false },
+    });
+    if (!note) {
+      return res.status(404).json({ message: "Note not found" });
+    }
+    const hashedPassword = await hashPassword(newPassword);
+    note.password = hashedPassword;
+    note.isLocked = true;
+    await note.save();
+    res.status(200).json({
+      message: "Note password set successfully",
+    });
+  } catch (error) {
+    res.status(error.status || 500).json({
+      message: error.message || "Server error",
+    });
+  }
+};
 const updateNotePassword = async (req, res) => {
   try {
     const { noteId } = req.params;
@@ -191,8 +225,11 @@ const updateNotePassword = async (req, res) => {
         .status(400)
         .json({ message: "New password must be at least 6 characters" });
     }
-
-    const note = await Note.findOne({ _id: noteId, user: req.user._id });
+    const note = await Note.findOne({
+      _id: noteId,
+      user: req.user._id,
+      password: { $exists: true },
+    });
     if (!note) {
       return res.status(404).json({ message: "Note not found" });
     }
@@ -224,7 +261,11 @@ const deleteNotePassword = async (req, res) => {
       return res.status(400).json({ message: "Invalid note ID" });
     }
 
-    const note = await Note.findOne({ _id: noteId, user: req.user._id });
+    const note = await Note.findOne({
+      _id: noteId,
+      user: req.user._id,
+      password: { $exists: true },
+    });
     if (!note) {
       return res.status(404).json({ message: "Note not found" });
     }
@@ -252,5 +293,6 @@ module.exports = {
   deleteNote,
   getNoteById,
   updateNotePassword,
-  deleteNotePassword
+  deleteNotePassword,
+  noteLock,
 };
