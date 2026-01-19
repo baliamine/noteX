@@ -6,6 +6,8 @@ const {
   getAllNotes,
   deleteNote,
   getNoteById,
+  updateNotePassword,
+  deleteNotePassword,
 } = require("../controllers/note.controller");
 const verifyToken = require("../middlewares/verify.token");
 const { NoteValidator } = require("../validators/note.validate");
@@ -27,7 +29,7 @@ router.put(
   verifyToken,
   authorize("user"),
   uploadSingle("file"),
- validateRequest(NoteValidator),
+  validateRequest(NoteValidator),
   EditNote,
 );
 router.delete(
@@ -37,6 +39,18 @@ router.delete(
   deleteNote,
 );
 
+router.put(
+  "/update-note-password/:noteId",
+  verifyToken,
+  authorize("user"),
+  updateNotePassword,
+);
+router.delete(
+  "/delete-note-password/:noteId",
+  verifyToken,
+  authorize("user"),
+  deleteNotePassword,
+);
 router.get("/all-notes", verifyToken, authorize("user"), getAllNotes);
 router.get("/note-byId/:noteId", verifyToken, authorize("user"), getNoteById);
 module.exports = router;

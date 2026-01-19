@@ -1,8 +1,7 @@
 const mongoose = require("mongoose");
 const Note = require("../models/note");
 const { getFileUrl } = require("../middlewares/upload.file");
-const {deleteFile} = require("../utils/delete.file");
-
+const { deleteFile } = require("../utils/delete.file");
 const ApiFeatures = require("../config/api.features");
 const hashPassword = require("../utils/hash.password");
 const checkNoteLock = require("../utils/check.note.lock");
@@ -177,10 +176,81 @@ const getAllNotes = async (req, res) => {
     });
   }
 };
+
+const updateNotePassword = async (req, res) => {
+  try {
+    const { noteId } = req.params;
+    const { currentPassword, newPassword } = req.body || {};
+
+    if (!mongoose.Types.ObjectId.isValid(noteId)) {
+      return res.status(400).json({ message: "Invalid note ID" });
+    }
+
+    if (!newPassword || newPassword.length < 6) {
+      return res
+        .status(400)
+        .json({ message: "New password must be at least 6 characters" });
+    }
+
+    const note = await Note.findOne({ _id: noteId, user: req.user._id });
+    if (!note) {
+      return res.status(404).json({ message: "Note not found" });
+    }
+
+    await checkNoteLock(note, currentPassword);
+
+    const hashedPassword = await hashPassword(newPassword);
+
+    note.password = hashedPassword;
+    note.isLocked = true;
+    await note.save();
+
+    res.status(200).json({
+      message: "Note password updated successfully",
+    });
+  } catch (error) {
+    res.status(error.status || 500).json({
+      message: error.message || "Server error",
+    });
+  }
+};
+
+const deleteNotePassword = async (req, res) => {
+  try {
+    const { noteId } = req.params;
+    const { currentPassword } = req.body || {};
+
+    if (!mongoose.Types.ObjectId.isValid(noteId)) {
+      return res.status(400).json({ message: "Invalid note ID" });
+    }
+
+    const note = await Note.findOne({ _id: noteId, user: req.user._id });
+    if (!note) {
+      return res.status(404).json({ message: "Note not found" });
+    }
+
+    await checkNoteLock(note, currentPassword);
+
+    note.password = undefined;
+    note.isLocked = false;
+    await note.save();
+
+    res.status(200).json({
+      message: "Note password removed successfully",
+    });
+  } catch (error) {
+    res.status(error.status || 500).json({
+      message: error.message || "Server error",
+    });
+  }
+};
+
 module.exports = {
   createNewNote,
   EditNote,
   getAllNotes,
   deleteNote,
   getNoteById,
+  updateNotePassword,
+  deleteNotePassword
 };

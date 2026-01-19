@@ -15,7 +15,6 @@ exports.updateProfileValidation = [
 
 
 
-// Validation for updating email
 exports.updateEmailValidation = [
   body("newEmail")
     .notEmpty()
@@ -31,7 +30,6 @@ exports.updateEmailValidation = [
 
 
 
-// Validation for updating password
 exports.updatePasswordValidation = [
   body("currentPassword")
     .notEmpty()
