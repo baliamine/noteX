@@ -17,32 +17,29 @@ const {
   updateEmailValidation,
   updatePasswordValidation,
 } = require("../validators/profile.validate");
-const validate = require("../middlewares/validate");
+const validateRequest = require("../middlewares/validate.request");
 
 router.get("/get-profile", verifyToken, authorize("user"), getProfile);
 router.put(
   "/update-profile",
   verifyToken,
   authorize("user"),
-  updateProfileValidation,
-  validate,
-  updateProfile
+  validateRequest(updateProfileValidation),
+  updateProfile,
 );
 router.put(
   "/update-email",
   verifyToken,
   authorize("user"),
-  updateEmailValidation,
-  validate,
-  updateEmail
+  validateRequest(updateEmailValidation),
+  updateEmail,
 );
 router.put(
   "/update-password",
   verifyToken,
   authorize("user"),
-  updatePasswordValidation,
-  validate,
-  updatePassword
+  validateRequest(updatePasswordValidation),
+  updatePassword,
 );
 router.delete("/delete-account", verifyToken, authorize("user"), deleteAccount);
 

@@ -9,17 +9,16 @@ const {
 } = require("../controllers/note.controller");
 const verifyToken = require("../middlewares/verify.token");
 const { NoteValidator } = require("../validators/note.validate");
-const validate = require("../middlewares/validate");
 const { uploadSingle } = require("../middlewares/upload.file");
 const authorize = require("../middlewares/authorize.role");
+const validateRequest = require("../middlewares/validate.request");
 
 router.post(
   "/new-note",
   verifyToken,
   authorize("user"),
   uploadSingle("file"),
-  NoteValidator,
-  validate,
+  validateRequest(NoteValidator),
   createNewNote,
 );
 
@@ -28,8 +27,7 @@ router.put(
   verifyToken,
   authorize("user"),
   uploadSingle("file"),
-  NoteValidator,
-  validate,
+ validateRequest(NoteValidator),
   EditNote,
 );
 router.delete(

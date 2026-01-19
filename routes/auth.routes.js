@@ -13,13 +13,12 @@ const {
   registerValidation,
   loginValidation,
 } = require("../validators/auth.validate");
-const validate = require("../middlewares/validate");
-
+const validateRequest = require("../middlewares/validate.request");
 const verifyToken = require("../middlewares/verify.token");
 const authorize = require("../middlewares/authorize.role");
-router.post("/register", registerValidation, validate, Register);
 
-router.post("/login", loginValidation, validate, Login);
+router.post("/register", validateRequest(registerValidation), Register);
+router.post("/login", validateRequest(loginValidation), Login);
 router.post("/refresh-token", verifyToken, authorize("user"), RefreshToken);
 router.post("/forgot-password", forgotPassword);
 router.post("/reset-password", resetPassword);
