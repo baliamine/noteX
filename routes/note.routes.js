@@ -8,7 +8,7 @@ const {
   getNoteById,
   updateNotePassword,
   deleteNotePassword,
-  noteLock,
+  setNotePassword,
 } = require("../controllers/note.controller");
 const verifyToken = require("../middlewares/verify.token");
 const { NoteValidator } = require("../validators/note.validate");
@@ -44,7 +44,7 @@ router.post(
   "/set-note-password/:noteId",
   verifyToken,
   authorize("user"),
-  noteLock,
+  setNotePassword,
 );
 router.put(
   "/update-note-password/:noteId",

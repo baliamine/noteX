@@ -178,7 +178,7 @@ const getAllNotes = async (req, res) => {
   }
 };
 
-const noteLock = async (req, res) => {
+const setNotePassword = async (req, res) => {
   try {
     const { noteId } = req.params;
     const { newPassword } = req.body || {};
@@ -294,5 +294,5 @@ module.exports = {
   getNoteById,
   updateNotePassword,
   deleteNotePassword,
-  noteLock,
+  setNotePassword,
 };
