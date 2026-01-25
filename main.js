@@ -5,6 +5,7 @@ const cookieParser = require("cookie-parser");
 
 const authRoutes = require("./routes/auth.routes");
 const noteRoutes = require("./routes/note.routes");
+const sharedNoteRoutes = require("./routes/shared.note.routes");
 const profileRoutes = require("./routes/profile.route");
 const adminRoutes = require("./routes/admin.routes");
 
@@ -19,8 +20,10 @@ app.use("/uploads", express.static("uploads"));
 
 // Routes
 app.use("/api/note", noteRoutes);
+app.use("/api/shared-note", sharedNoteRoutes);
 app.use("/api/user", authRoutes);
 app.use("/api/profile", profileRoutes);
 app.use("/api/admin", adminRoutes);
+
 
 module.exports = app;

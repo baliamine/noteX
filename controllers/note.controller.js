@@ -5,7 +5,7 @@ const { deleteFile } = require("../utils/delete.file");
 const ApiFeatures = require("../config/api.features");
 const hashPassword = require("../utils/hash.password");
 const checkNoteLock = require("../utils/check.note.lock");
-const note = require("../models/note");
+
 
 const EditNote = async (req, res) => {
   try {
