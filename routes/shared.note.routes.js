@@ -13,10 +13,7 @@ router.post(
   authorize("user"),
   createSharedNote,
 );
-router.get(
-  "/get-shared-link/:linkId",
-  verifyToken,
-  authorize("user"),
-  getSharedNote,
-);
+
+router.get("/get-shared-link/:linkId", getSharedNote);
+
 module.exports = router;
