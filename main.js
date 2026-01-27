@@ -8,6 +8,7 @@ const noteRoutes = require("./routes/note.routes");
 const sharedNoteRoutes = require("./routes/shared.note.routes");
 const profileRoutes = require("./routes/profile.route");
 const adminRoutes = require("./routes/admin.routes");
+const aiRoutes = require("./routes/ai.routes");
 
 const app = express();
 
@@ -24,6 +25,7 @@ app.use("/api/shared-note", sharedNoteRoutes);
 app.use("/api/user", authRoutes);
 app.use("/api/profile", profileRoutes);
 app.use("/api/admin", adminRoutes);
+app.use("/api/ai", aiRoutes);
 
 
 module.exports = app;
