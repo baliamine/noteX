@@ -13,7 +13,9 @@ const sharedNoteSchema = new Schema(
     },
     permission: { type: String, enum: ["read", "edit"], default: "read" },
     expiresInDays: { type: Number, default: 30 },
+    unlockAllowed: { type: Boolean, default: false },
   },
+
   { timestamps: true },
 );
 
